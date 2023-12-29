@@ -3,5 +3,5 @@ set(INC_DIR ..)
 
 file(GLOB SOURCES "${SRC_DIR}/*.cc")
 add_executable(client_main ${SOURCES})
-target_link_libraries(client_main MinimalSocket)
+target_link_libraries(client_main MinimalSocket utils_lib)
 target_include_directories(client_main PUBLIC ${INC_DIR} ${min_sock_SOURCE_DIR}/src/header)

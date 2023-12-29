@@ -13,5 +13,6 @@ GIT_TAG        master
 )
 FetchContent_MakeAvailable(min_sock)
 
+add_subdirectory(utils)
 add_subdirectory(client)
 add_subdirectory(server)

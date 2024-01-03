@@ -32,15 +32,19 @@ uint32_t bytes_to_uint32(const std::string& bytes) {
   return ntohl(result);
 }
 
-Message ReceiveMessage(msock::Receiver& receiver) {
+std::optional<Message> ReceiveMessage(msock::Receiver& receiver) {
   Message received_message;
 
-  uint32_t message_sender_name_size =
-      bytes_to_uint32(receiver.receive(sizeof(uint32_t)));
-  received_message.sender_name = receiver.receive(message_sender_name_size);
-  uint32_t message_text_size =
-      bytes_to_uint32(receiver.receive(sizeof(uint32_t)));
-  received_message.text = receiver.receive(message_text_size);
+  try {
+    uint32_t message_sender_name_size =
+        bytes_to_uint32(receiver.receive(sizeof(uint32_t)));
+    received_message.sender_name = receiver.receive(message_sender_name_size);
+    uint32_t message_text_size =
+        bytes_to_uint32(receiver.receive(sizeof(uint32_t)));
+    received_message.text = receiver.receive(message_text_size);
+  } catch (const msock::SocketError& e) {
+    return std::nullopt;
+  }
 
   return received_message;
 }

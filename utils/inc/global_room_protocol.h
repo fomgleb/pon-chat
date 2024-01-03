@@ -1,6 +1,7 @@
 #ifndef PONCHAT_UTILS_GLOBALROOMPROTOCOL_H_
 #define PONCHAT_UTILS_GLOBALROOMPROTOCOL_H_
 
+#include <MinimalSocket/Error.h>
 #include <MinimalSocket/core/Receiver.h>
 #include <MinimalSocket/core/Sender.h>
 
@@ -23,7 +24,7 @@ void SendMessage(MinimalSocket::Sender& sender,
                  const std::string& message_sender_name,
                  const std::string& message_text);
 void SendMessage(MinimalSocket::Sender& sender, const Message& message);
-Message ReceiveMessage(MinimalSocket::Receiver& receiver);
+std::optional<Message> ReceiveMessage(MinimalSocket::Receiver& receiver);
 
 }  // namespace pon_chat::utils::global_room_protocol
 

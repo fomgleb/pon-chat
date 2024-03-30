@@ -7,6 +7,7 @@ namespace pon_chat::utils::console_input {
 
 template <typename T>
 T ReadNumber(const std::string& prompt, const std::string& error_message);
+std::string ReadString(const std::string& prompt);
 
 }  // namespace pon_chat::utils::console_input
 

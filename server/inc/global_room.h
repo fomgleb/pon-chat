@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <thread>
+#include <list>
 
 #include "MinimalSocket/tcp/TcpServer.h"
 #include "utils/inc/global_room_protocol.h"

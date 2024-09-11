@@ -7,10 +7,10 @@ namespace grp = utils::global_room_protocol;
 
 void GlobalRoom::AcceptConnections() {
   while (true) {
-    msock::tcp::TcpConnection new_connection = tcp_server_->acceptNewClient();
+    msock::tcp::TcpConnectionBlocking new_connection = tcp_server_->acceptNewClient();
     std::unique_lock<std::mutex> lock(connections_mutex_);
     connections_.push_back(
-        std::make_shared<msock::tcp::TcpConnection>(std::move(new_connection)));
+        std::make_shared<msock::tcp::TcpConnectionBlocking>(std::move(new_connection)));
     auto last_connection = connections_.back();
     lock.unlock();
     std::cout << last_connection->getRemoteAddress().getHost()
@@ -23,7 +23,7 @@ void GlobalRoom::AcceptConnections() {
 }
 
 void GlobalRoom::StartHandlingParticipantMessages(
-    std::shared_ptr<msock::tcp::TcpConnection> connection) {
+    std::shared_ptr<msock::tcp::TcpConnectionBlocking> connection) {
   while (true) {
     std::optional<grp::Message> maybe_message =
         grp::ReceiveMessage(*connection);
@@ -48,7 +48,7 @@ void GlobalRoom::StartHandlingParticipantMessages(
 }
 
 void GlobalRoom::Start(const msock::Port listening_port) {
-  tcp_server_ = std::make_unique<msock::tcp::TcpServer>(listening_port);
+  tcp_server_ = std::make_unique<msock::tcp::TcpServer<true>>(listening_port);
   bool socket_is_opened = tcp_server_->open();
 
   std::thread accept_connections_thread(&GlobalRoom::AcceptConnections, this);

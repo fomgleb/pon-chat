@@ -32,7 +32,7 @@ uint32_t bytes_to_uint32(const std::string& bytes) {
   return ntohl(result);
 }
 
-std::optional<Message> ReceiveMessage(msock::Receiver& receiver) {
+std::optional<Message> ReceiveMessage(msock::Receiver<true>& receiver) {
   Message received_message;
 
   try {

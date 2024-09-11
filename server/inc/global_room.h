@@ -12,12 +12,12 @@ namespace pon_chat::server {
 
 class GlobalRoom {
  private:
-  std::unique_ptr<MinimalSocket::tcp::TcpServer> tcp_server_;
-  std::list<std::shared_ptr<MinimalSocket::tcp::TcpConnection>> connections_;
+  std::unique_ptr<MinimalSocket::tcp::TcpServer<true>> tcp_server_;
+  std::list<std::shared_ptr<MinimalSocket::tcp::TcpConnectionBlocking>> connections_;
   std::mutex connections_mutex_;
   void AcceptConnections();
   void StartHandlingParticipantMessages(
-      std::shared_ptr<MinimalSocket::tcp::TcpConnection> connection);
+      std::shared_ptr<MinimalSocket::tcp::TcpConnectionBlocking> connection);
 
  public:
   void Start(const MinimalSocket::Port listening_port);

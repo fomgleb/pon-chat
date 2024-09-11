@@ -24,7 +24,7 @@ void SendMessage(MinimalSocket::Sender& sender,
                  const std::string& message_sender_name,
                  const std::string& message_text);
 void SendMessage(MinimalSocket::Sender& sender, const Message& message);
-std::optional<Message> ReceiveMessage(MinimalSocket::Receiver& receiver);
+std::optional<Message> ReceiveMessage(MinimalSocket::Receiver<true>& receiver);
 
 }  // namespace pon_chat::utils::global_room_protocol
 

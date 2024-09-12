@@ -7,10 +7,11 @@ namespace grp = utils::global_room_protocol;
 
 void GlobalRoom::AcceptConnections() {
   while (true) {
-    msock::tcp::TcpConnectionBlocking new_connection = tcp_server_->acceptNewClient();
+    msock::tcp::TcpConnectionBlocking new_connection =
+        tcp_server_->acceptNewClient();
     std::unique_lock<std::mutex> lock(connections_mutex_);
-    connections_.push_back(
-        std::make_shared<msock::tcp::TcpConnectionBlocking>(std::move(new_connection)));
+    connections_.push_back(std::make_shared<msock::tcp::TcpConnectionBlocking>(
+        std::move(new_connection)));
     auto last_connection = connections_.back();
     lock.unlock();
     std::cout << last_connection->getRemoteAddress().getHost()
@@ -31,7 +32,9 @@ void GlobalRoom::StartHandlingParticipantMessages(
     std::unique_lock<std::mutex> lock(connections_mutex_);
     if (maybe_message.has_value()) {
       for (auto const& i : connections_) {
-        if (connection == i) continue;
+        if (connection == i) {
+          continue;
+        }
         grp::SendMessage(*i, maybe_message.value());
       }
       lock.unlock();

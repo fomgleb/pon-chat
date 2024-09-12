@@ -9,4 +9,4 @@ std::string ReadString(const std::string& prompt = "") {
   return input;
 }
 
-}
+}  // namespace pon_chat::utils::console_input

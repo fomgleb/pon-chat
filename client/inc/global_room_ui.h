@@ -6,6 +6,8 @@
 #include "ftxui/component/screen_interactive.hpp"
 #include "utils/inc/global_room_protocol.h"
 
+#include <future>
+
 namespace pon_chat::client {
 
 class GlobalRoom {

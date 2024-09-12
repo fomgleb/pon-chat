@@ -70,16 +70,25 @@ void GlobalRoom::StartLoop() {
   messenger_renderer_ = CreateMessangerRenderer();
   ftxui::Component login_renderer = CreateLoginRenderer();
 
-  std::thread handle_messages_from_server_thread([&] {
-    while (true) {
-      std::optional<grp::Message> received_message =
-          grp::ReceiveMessage(tcp_client_);
-      SendMessageAndAddToMessageElements(received_message.value());
-    }
-  });
-  handle_messages_from_server_thread.detach();
+  std::promise<std::string> error_message;
+  std::thread handle_messages_from_server_thread(
+      [&](std::promise<std::string>& error_message) {
+        while (true) {
+          std::optional<grp::Message> received_message =
+              grp::ReceiveMessage(tcp_client_);
+          if (!received_message.has_value()) {
+            error_message.set_value("Lost connection with the server");
+            chat_screen_.Exit();
+            break;
+          }
+          SendMessageAndAddToMessageElements(received_message.value());
+        }
+      },
+      std::ref(error_message));
 
+  handle_messages_from_server_thread.detach();
   login_screen_.Loop(login_renderer);
+  std::cerr << error_message.get_future().get() << std::endl;
 }
 
 }  // namespace pon_chat::client

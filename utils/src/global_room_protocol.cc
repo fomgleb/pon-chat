@@ -38,9 +38,15 @@ std::optional<Message> ReceiveMessage(msock::Receiver<true>& receiver) {
   try {
     uint32_t message_sender_name_size =
         bytes_to_uint32(receiver.receive(sizeof(uint32_t)));
+    if (message_sender_name_size == 0) {
+      return std::nullopt;
+    }
     received_message.sender_name = receiver.receive(message_sender_name_size);
     uint32_t message_text_size =
         bytes_to_uint32(receiver.receive(sizeof(uint32_t)));
+    if (message_text_size == 0) {
+      return std::nullopt;
+    }
     received_message.text = receiver.receive(message_text_size);
   } catch (const msock::SocketError& e) {
     return std::nullopt;

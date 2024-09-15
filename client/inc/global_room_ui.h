@@ -30,6 +30,8 @@ class GlobalRoom {
 
   ftxui::Component messenger_renderer_;
 
+  std::string error_message_ = "";
+
   void SendMessageAndAddToMessageElements(
       pon_chat::utils::global_room_protocol::Message& message);
   ftxui::Component CreateMessangerRenderer();

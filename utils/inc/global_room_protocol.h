@@ -7,6 +7,8 @@
 
 #include <algorithm>
 
+#include "utils/inc/signals.h"
+
 #ifdef _WIN32
 #include <winsock2.h>  // For Windows
 #else
@@ -20,10 +22,10 @@ struct Message {
   std::string text;
 };
 
-void SendMessage(MinimalSocket::Sender& sender,
-                 const std::string& message_sender_name,
-                 const std::string& message_text);
-void SendMessage(MinimalSocket::Sender& sender, const Message& message);
+bool TrySendMessage(MinimalSocket::Sender& sender,
+                    const std::string& message_sender_name,
+                    const std::string& message_text);
+bool TrySendMessage(MinimalSocket::Sender& sender, const Message& message);
 std::optional<Message> ReceiveMessage(MinimalSocket::Receiver<true>& receiver);
 
 }  // namespace pon_chat::utils::global_room_protocol

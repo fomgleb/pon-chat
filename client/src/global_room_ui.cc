@@ -21,7 +21,13 @@ ftxui::Component GlobalRoom::CreateMessangerRenderer() {
                              0, user_name_input_field_text_.size() - 1),
                          message_input_field_text_.substr(
                              0, message_input_field_text_.size() - 1)};
-    grp::SendMessage(tcp_client_, message);
+
+    if (!grp::TrySendMessage(tcp_client_, message)) {
+      error_message_ = "Lost connection with the server";
+      chat_screen_.Exit();
+      return;
+    }
+
     SendMessageAndAddToMessageElements(message);
     message_input_field_text_ = "";
   };
@@ -70,25 +76,22 @@ void GlobalRoom::StartLoop() {
   messenger_renderer_ = CreateMessangerRenderer();
   ftxui::Component login_renderer = CreateLoginRenderer();
 
-  std::promise<std::string> error_message;
-  std::thread handle_messages_from_server_thread(
-      [&](std::promise<std::string>& error_message) {
-        while (true) {
-          std::optional<grp::Message> received_message =
-              grp::ReceiveMessage(tcp_client_);
-          if (!received_message.has_value()) {
-            error_message.set_value("Lost connection with the server");
-            chat_screen_.Exit();
-            break;
-          }
-          SendMessageAndAddToMessageElements(received_message.value());
-        }
-      },
-      std::ref(error_message));
+  std::thread handle_messages_from_server_thread([&] {
+    while (true) {
+      std::optional<grp::Message> received_message =
+          grp::ReceiveMessage(tcp_client_);
+      if (!received_message.has_value()) {
+        error_message_ = "Lost connection with the server";
+        chat_screen_.Exit();
+        break;
+      }
+      SendMessageAndAddToMessageElements(received_message.value());
+    }
+  });
 
   handle_messages_from_server_thread.detach();
   login_screen_.Loop(login_renderer);
-  std::cerr << error_message.get_future().get() << std::endl;
+  std::cerr << error_message_ << std::endl;
 }
 
 }  // namespace pon_chat::client

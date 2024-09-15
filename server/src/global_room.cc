@@ -35,7 +35,7 @@ void GlobalRoom::StartHandlingParticipantMessages(
         if (connection == i) {
           continue;
         }
-        grp::SendMessage(*i, maybe_message.value());
+        grp::TrySendMessage(*i, maybe_message.value());
       }
       lock.unlock();
       std::cout << maybe_message.value().sender_name << ": "

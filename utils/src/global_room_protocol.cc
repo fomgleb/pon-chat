@@ -3,10 +3,13 @@
 namespace pon_chat::utils::global_room_protocol {
 
 namespace msock = MinimalSocket;
+namespace sigs = pon_chat::utils::signals;
 
-void SendMessage(MinimalSocket::Sender& sender,
-                 const std::string& message_sender_name,
-                 const std::string& message_text) {
+bool TrySendMessage(MinimalSocket::Sender& sender,
+                    const std::string& message_sender_name,
+                    const std::string& message_text) {
+  bool no_errors = true;
+
   uint32_t message_sender_name_size = htonl(message_sender_name.size());
   uint32_t message_text_size = htonl(message_text.size());
 
@@ -18,11 +21,20 @@ void SendMessage(MinimalSocket::Sender& sender,
                           sizeof(message_text_size));
   protocol_message.append(message_text);
 
-  sender.send(protocol_message);
+  sighandler_t old_sighanlder = sigs::GetAndSetSighandler(SIGPIPE, SIG_IGN);
+  try {
+    sender.send(protocol_message);
+  } catch (const msock::SocketError e) {
+    std::cerr << e.what() << '\n';
+    no_errors = false;
+  }
+  signal(SIGPIPE, old_sighanlder);
+
+  return no_errors;
 }
 
-void SendMessage(msock::Sender& sender, const Message& message) {
-  SendMessage(sender, message.sender_name, message.text);
+bool TrySendMessage(msock::Sender& sender, const Message& message) {
+  return TrySendMessage(sender, message.sender_name, message.text);
 }
 
 uint32_t bytes_to_uint32(const std::string& bytes) {

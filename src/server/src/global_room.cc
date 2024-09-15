@@ -1,4 +1,4 @@
-#include "server/inc/global_room.h"
+#include "global_room.h"
 
 namespace pon_chat::server {
 

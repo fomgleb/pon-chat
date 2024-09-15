@@ -6,7 +6,7 @@
 #include <thread>
 
 #include "MinimalSocket/tcp/TcpServer.h"
-#include "utils/inc/global_room_protocol.h"
+#include "pon-chat/utils/global_room_protocol.h"
 
 namespace pon_chat::server {
 

@@ -1,5 +1,5 @@
-#include "server/inc/global_room.h"
-#include "utils/inc/console_input.h"
+#include "global_room.h"
+#include "pon-chat/utils/console_input.h"
 
 namespace ci = pon_chat::utils::console_input;
 namespace msock = MinimalSocket;

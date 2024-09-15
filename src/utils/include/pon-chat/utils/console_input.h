@@ -11,6 +11,6 @@ std::string ReadString(const std::string& prompt);
 
 }  // namespace pon_chat::utils::console_input
 
-#include "utils/src/console_input_impl.h"
+#include "../../../src/console_input_impl.h"
 
 #endif  // PONCHAT_UTILS_CONSOLEINPUT_H_

@@ -1,4 +1,4 @@
-#include "client/inc/global_room_ui.h"
+#include "global_room_ui.h"
 
 namespace pon_chat::client {
 

@@ -1,4 +1,4 @@
-#include "utils/inc/signals.h"
+#include "pon-chat/utils/signals.h"
 
 namespace pon_chat::utils::signals {
 

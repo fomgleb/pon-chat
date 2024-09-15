@@ -13,6 +13,3 @@ target_include_directories(
           ${ftxui_SOURCE_DIR}/include)
 
 target_link_libraries(${LIB_NAME} PRIVATE MinimalSocket)
-
-target_include_directories(utils_lib PUBLIC ${INC_DIR}
-                                            ${min_sock_SOURCE_DIR}/src/header)

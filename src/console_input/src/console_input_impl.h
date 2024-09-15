@@ -1,9 +1,9 @@
-#ifndef PONCHAT_UTILS_CONSOLEINPUTIMPL_H_
-#define PONCHAT_UTILS_CONSOLEINPUTIMPL_H_
+#ifndef PONCHAT_CONSOLEINPUT_CONSOLEINPUTIMPL_H_
+#define PONCHAT_CONSOLEINPUT_CONSOLEINPUTIMPL_H_
 
-#include "pon-chat/utils/console_input.h"
+#include "pon-chat/console_input/console_input.h"
 
-namespace pon_chat::utils::console_input {
+namespace pon_chat::console_input {
 
 template <typename T>
 T ReadNumber(const std::string& prompt, const std::string& error_message) {
@@ -24,6 +24,6 @@ T ReadNumber(const std::string& prompt, const std::string& error_message) {
   return parsed_input;
 }
 
-}  // namespace pon_chat::utils::console_input
+}  // namespace pon_chat::console_input
 
-#endif  // PONCHAT_UTILS_CONSOLEINPUTIMPL_H_
+#endif  // PONCHAT_CONSOLEINPUT_CONSOLEINPUTIMPL_H_

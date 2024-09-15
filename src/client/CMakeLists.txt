@@ -12,5 +12,6 @@ target_include_directories(
   PRIVATE ${PRIVATE_HEADER_DIR} ${min_sock_SOURCE_DIR}/src/header
           ${ftxui_SOURCE_DIR}/include)
 
-target_link_libraries(${APP_NAME} PRIVATE MinimalSocket utils_lib ftxui::screen
-                                          ftxui::dom ftxui::component)
+target_link_libraries(
+  ${APP_NAME} PRIVATE MinimalSocket utils_lib console_input_lib ftxui::screen
+                      ftxui::dom ftxui::component)

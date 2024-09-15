@@ -20,6 +20,7 @@ if(NOT ftxui_POPULATED)
   add_subdirectory(${ftxui_SOURCE_DIR} ${ftxui_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
 
+add_subdirectory(console_input)
 add_subdirectory(utils)
 add_subdirectory(client)
 add_subdirectory(server)

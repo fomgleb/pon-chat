@@ -3,7 +3,7 @@
 namespace pon_chat::utils::global_room_protocol {
 
 namespace msock = MinimalSocket;
-namespace sigs = pon_chat::utils::signals;
+namespace sigs = pon_chat::signals;
 
 bool TrySendMessage(MinimalSocket::Sender& sender,
                     const std::string& message_sender_name,

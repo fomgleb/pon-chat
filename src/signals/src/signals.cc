@@ -1,6 +1,6 @@
-#include "pon-chat/utils/signals.h"
+#include "pon-chat/signals/signals.h"
 
-namespace pon_chat::utils::signals {
+namespace pon_chat::signals {
 
 sighandler_t GetAndSetSighandler(const int signal,
                                  const sighandler_t new_sighandler) {
@@ -17,4 +17,4 @@ sighandler_t GetAndSetSighandler(const int signal,
   return old_action.sa_handler;
 }
 
-}  // namespace pon_chat::utils::signals
+}  // namespace pon_chat::signals

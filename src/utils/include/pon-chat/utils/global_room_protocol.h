@@ -7,7 +7,7 @@
 
 #include <algorithm>
 
-#include "pon-chat/utils/signals.h"
+#include "pon-chat/signals/signals.h"
 
 #ifdef _WIN32
 #include <winsock2.h>  // For Windows

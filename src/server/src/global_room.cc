@@ -3,7 +3,7 @@
 namespace pon_chat::server {
 
 namespace msock = MinimalSocket;
-namespace grp = utils::global_room_protocol;
+namespace grp = protocols::global_room_protocol;
 
 void GlobalRoom::AcceptConnections() {
   while (true) {

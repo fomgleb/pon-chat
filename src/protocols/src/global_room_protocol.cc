@@ -1,6 +1,6 @@
-#include "pon-chat/utils/global_room_protocol.h"
+#include "pon-chat/protocols/global_room_protocol.h"
 
-namespace pon_chat::utils::global_room_protocol {
+namespace pon_chat::protocols::global_room_protocol {
 
 namespace msock = MinimalSocket;
 namespace sigs = pon_chat::signals;
@@ -67,4 +67,4 @@ std::optional<Message> ReceiveMessage(msock::Receiver<true>& receiver) {
   return received_message;
 }
 
-}  // namespace pon_chat::utils::global_room_protocol
+}  // namespace pon_chat::protocols::global_room_protocol

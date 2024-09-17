@@ -4,7 +4,7 @@
 #include "MinimalSocket/tcp/TcpClient.h"
 #include "ftxui/component/component.hpp"
 #include "ftxui/component/screen_interactive.hpp"
-#include "pon-chat/utils/global_room_protocol.h"
+#include "pon-chat/protocols/global_room_protocol.h"
 
 #include <future>
 
@@ -33,7 +33,7 @@ class GlobalRoom {
   std::string error_message_ = "";
 
   void SendMessageAndAddToMessageElements(
-      pon_chat::utils::global_room_protocol::Message& message);
+      pon_chat::protocols::global_room_protocol::Message& message);
   ftxui::Component CreateMessangerRenderer();
   ftxui::Component CreateLoginRenderer();
 

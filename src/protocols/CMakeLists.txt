@@ -1,4 +1,4 @@
-set(LIB_NAME "utils_lib")
+set(LIB_NAME "protocols_lib")
 set(SOURCE_DIR "src")
 set(PRIVATE_HEADER_DIR "src")
 set(PUBLIC_HEADER_DIR "include")

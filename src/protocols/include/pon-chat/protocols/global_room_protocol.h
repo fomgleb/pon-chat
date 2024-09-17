@@ -1,5 +1,5 @@
-#ifndef PONCHAT_UTILS_GLOBALROOMPROTOCOL_H_
-#define PONCHAT_UTILS_GLOBALROOMPROTOCOL_H_
+#ifndef PONCHAT_PROTOCOLS_GLOBALROOMPROTOCOL_H_
+#define PONCHAT_PROTOCOLS_GLOBALROOMPROTOCOL_H_
 
 #include "MinimalSocket/Error.h"
 #include "MinimalSocket/core/Receiver.h"
@@ -15,7 +15,7 @@
 #include <arpa/inet.h>  // For Unix
 #endif
 
-namespace pon_chat::utils::global_room_protocol {
+namespace pon_chat::protocols::global_room_protocol {
 
 struct Message {
   std::string sender_name;
@@ -28,6 +28,6 @@ bool TrySendMessage(MinimalSocket::Sender& sender,
 bool TrySendMessage(MinimalSocket::Sender& sender, const Message& message);
 std::optional<Message> ReceiveMessage(MinimalSocket::Receiver<true>& receiver);
 
-}  // namespace pon_chat::utils::global_room_protocol
+}  // namespace pon_chat::protocols::global_room_protocol
 
-#endif  // PONCHAT_UTILS_GLOBALROOMPROTOCOL_H_
+#endif  // PONCHAT_PROTOCOLS_GLOBALROOMPROTOCOL_H_

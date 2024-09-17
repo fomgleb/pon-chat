@@ -22,6 +22,6 @@ endif()
 
 add_subdirectory(console_input)
 add_subdirectory(signals)
-add_subdirectory(utils)
+add_subdirectory(protocols)
 add_subdirectory(client)
 add_subdirectory(server)

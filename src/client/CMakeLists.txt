@@ -13,5 +13,5 @@ target_include_directories(
           ${ftxui_SOURCE_DIR}/include)
 
 target_link_libraries(
-  ${APP_NAME} PRIVATE MinimalSocket utils_lib console_input_lib ftxui::screen
-                      ftxui::dom ftxui::component)
+  ${APP_NAME} PRIVATE MinimalSocket protocols_lib console_input_lib
+                      ftxui::screen ftxui::dom ftxui::component)

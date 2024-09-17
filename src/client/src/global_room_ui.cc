@@ -2,7 +2,7 @@
 
 namespace pon_chat::client {
 
-namespace grp = pon_chat::utils::global_room_protocol;
+namespace grp = pon_chat::protocols::global_room_protocol;
 namespace msock = MinimalSocket;
 
 void GlobalRoom::SendMessageAndAddToMessageElements(grp::Message& message) {

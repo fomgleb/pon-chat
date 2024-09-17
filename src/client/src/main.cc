@@ -1,4 +1,4 @@
-#include "global_room_ui.h"
+#include "global_room.h"
 #include "pon-chat/console_input/console_input.h"
 
 namespace msock = MinimalSocket;

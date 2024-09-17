@@ -10,9 +10,15 @@
 
 namespace pon_chat::client {
 
-class GlobalRoom {
+class GlobalRoomUI {
  private:
-  MinimalSocket::tcp::TcpClient<true>& tcp_client_;
+  std::vector<std::function<void(const std::string&)>>
+      subs_for_entered_username_event;
+  void InvokeEnteredUsernameEvent(const std::string& username);
+
+  std::vector<std::function<void(const std::string&)>>
+      subs_for_entered_message_event;
+  void InvokeEnteredMessageEvent(const std::string& message);
 
   ftxui::ScreenInteractive chat_screen_ =
       ftxui::ScreenInteractive::Fullscreen();
@@ -20,7 +26,6 @@ class GlobalRoom {
       ftxui::ScreenInteractive::FitComponent();
 
   ftxui::Component login_input_field_;
-
   std::string user_name_input_field_text_;
 
   ftxui::Component message_input_field_;
@@ -28,18 +33,22 @@ class GlobalRoom {
 
   ftxui::Elements message_elements;
 
-  ftxui::Component messenger_renderer_;
-
-  std::string error_message_ = "";
-
-  void SendMessageAndAddToMessageElements(
-      pon_chat::protocols::global_room_protocol::Message& message);
   ftxui::Component CreateMessangerRenderer();
   ftxui::Component CreateLoginRenderer();
 
  public:
-  GlobalRoom(MinimalSocket::tcp::TcpClient<true>& opened_tcp_client);
-  void StartLoop();
+  void SubscribeForEnteredUsernameEvent(
+      const std::function<void(const std::string&)>& sub);
+  void SubscribeForEnteredMessageEvent(
+      const std::function<void(const std::string&)>& sub);
+
+  void StartLoginScreen();
+  void StartChatScreen();
+  void StopLoginScreen();
+  void StopChatScreen();
+
+  void AddAndDrawNewMessage(protocols::global_room_protocol::Message& message);
+  void ClearMessageInputField();
 };
 
 }  // namespace pon_chat::client

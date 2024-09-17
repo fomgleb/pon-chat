@@ -5,31 +5,22 @@ namespace pon_chat::client {
 namespace grp = pon_chat::protocols::global_room_protocol;
 namespace msock = MinimalSocket;
 
-void GlobalRoom::SendMessageAndAddToMessageElements(grp::Message& message) {
-  message_elements.push_back(ftxui::window(ftxui::text(message.sender_name),
-                                           ftxui::paragraph(message.text)));
-  chat_screen_.PostEvent(ftxui::Event::Custom);
+void GlobalRoomUI::InvokeEnteredUsernameEvent(const std::string& username) {
+  for (auto const& sub : subs_for_entered_username_event) {
+    sub(username);
+  }
 }
 
-ftxui::Component GlobalRoom::CreateMessangerRenderer() {
+void GlobalRoomUI::InvokeEnteredMessageEvent(const std::string& message) {
+  for (auto const& sub : subs_for_entered_message_event) {
+    sub(message);
+  }
+}
+
+ftxui::Component GlobalRoomUI::CreateMessangerRenderer() {
   auto message_input_field_option = ftxui::InputOption();
   message_input_field_option.on_enter = [&] {
-    if (message_input_field_text_ == "\n") {
-      return;
-    }
-    grp::Message message{user_name_input_field_text_.substr(
-                             0, user_name_input_field_text_.size() - 1),
-                         message_input_field_text_.substr(
-                             0, message_input_field_text_.size() - 1)};
-
-    if (!grp::TrySendMessage(tcp_client_, message)) {
-      error_message_ = "Lost connection with the server";
-      chat_screen_.Exit();
-      return;
-    }
-
-    SendMessageAndAddToMessageElements(message);
-    message_input_field_text_ = "";
+    InvokeEnteredMessageEvent(message_input_field_text_);
   };
   message_input_field_ = ftxui::Component(
       ftxui::Input(&message_input_field_text_, "Enter your message...",
@@ -49,11 +40,10 @@ ftxui::Component GlobalRoom::CreateMessangerRenderer() {
   return messanger_renderer;
 }
 
-ftxui::Component GlobalRoom::CreateLoginRenderer() {
+ftxui::Component GlobalRoomUI::CreateLoginRenderer() {
   auto login_input_field_option = ftxui::InputOption();
   login_input_field_option.on_enter = [&] {
-    login_screen_.Exit();
-    chat_screen_.Loop(messenger_renderer_);
+    InvokeEnteredUsernameEvent(user_name_input_field_text_);
   };
   login_input_field_ =
       ftxui::Input(&user_name_input_field_text_, login_input_field_option);
@@ -69,29 +59,42 @@ ftxui::Component GlobalRoom::CreateLoginRenderer() {
   return login_renderer;
 }
 
-GlobalRoom::GlobalRoom(msock::tcp::TcpClient<true>& opened_tcp_client)
-    : tcp_client_(opened_tcp_client) {}
+void GlobalRoomUI::SubscribeForEnteredUsernameEvent(
+    const std::function<void(const std::string&)>& sub) {
+  subs_for_entered_username_event.push_back(sub);
+}
 
-void GlobalRoom::StartLoop() {
-  messenger_renderer_ = CreateMessangerRenderer();
+void GlobalRoomUI::SubscribeForEnteredMessageEvent(
+    const std::function<void(const std::string&)>& sub) {
+  subs_for_entered_message_event.push_back(sub);
+}
+
+void GlobalRoomUI::StartLoginScreen() {
   ftxui::Component login_renderer = CreateLoginRenderer();
-
-  std::thread handle_messages_from_server_thread([&] {
-    while (true) {
-      std::optional<grp::Message> received_message =
-          grp::ReceiveMessage(tcp_client_);
-      if (!received_message.has_value()) {
-        error_message_ = "Lost connection with the server";
-        chat_screen_.Exit();
-        break;
-      }
-      SendMessageAndAddToMessageElements(received_message.value());
-    }
-  });
-
-  handle_messages_from_server_thread.detach();
   login_screen_.Loop(login_renderer);
-  std::cerr << error_message_ << std::endl;
+}
+
+void GlobalRoomUI::StartChatScreen() {
+  ftxui::Component messenger_renderer = CreateMessangerRenderer();
+  chat_screen_.Loop(messenger_renderer);
+}
+
+void GlobalRoomUI::StopLoginScreen() {
+  login_screen_.Exit();
+}
+
+void GlobalRoomUI::StopChatScreen() {
+  chat_screen_.Exit();
+}
+
+void GlobalRoomUI::AddAndDrawNewMessage(grp::Message& message) {
+  message_elements.push_back(ftxui::window(ftxui::text(message.sender_name),
+                                           ftxui::paragraph(message.text)));
+  chat_screen_.PostEvent(ftxui::Event::Custom);
+}
+
+void GlobalRoomUI::ClearMessageInputField() {
+  message_input_field_text_ = "";
 }
 
 }  // namespace pon_chat::client

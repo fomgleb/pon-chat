@@ -7,14 +7,16 @@ set(BUILD_MinimalCppSocket_SAMPLES
 FetchContent_Declare(
   min_sock
   GIT_REPOSITORY https://github.com/andreacasalino/Minimal-Socket
-  GIT_TAG v.3.1)
+  GIT_TAG v.3.1
+  GIT_SHALLOW TRUE)
 FetchContent_MakeAvailable(min_sock)
 
 # Adding ftxui library
 FetchContent_Declare(
   ftxui
   GIT_REPOSITORY https://github.com/ArthurSonzogni/ftxui
-  GIT_TAG v5.0.0)
+  GIT_TAG v5.0.0
+  GIT_SHALLOW TRUE)
 FetchContent_GetProperties(ftxui)
 if(NOT ftxui_POPULATED)
   FetchContent_Populate(ftxui)

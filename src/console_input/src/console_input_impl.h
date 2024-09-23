@@ -3,6 +3,9 @@
 
 #include "pon-chat/console_input/console_input.h"
 
+#include <iostream>
+#include <sstream>
+
 namespace pon_chat::console_input {
 
 template <typename T>

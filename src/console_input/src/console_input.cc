@@ -1,5 +1,7 @@
 #include "pon-chat/console_input/console_input.h"
 
+#include <iostream>
+
 namespace pon_chat::console_input {
 
 std::string ReadString(const std::string& prompt = "") {

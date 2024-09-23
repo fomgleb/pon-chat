@@ -1,7 +1,7 @@
 #ifndef PONCHAT_CONSOLEINPUT_CONSOLEINPUT_H_
 #define PONCHAT_CONSOLEINPUT_CONSOLEINPUT_H_
 
-#include <iostream>
+#include <string>
 
 namespace pon_chat::console_input {
 

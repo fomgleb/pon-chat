@@ -3,6 +3,7 @@
 
 #include "ftxui/component/component.hpp"
 #include "ftxui/component/screen_interactive.hpp"
+#include "pon-chat/events/events.h"
 #include "pon-chat/protocols/global_room_protocol.h"
 
 #include <future>
@@ -11,14 +12,6 @@ namespace pon_chat::ui {
 
 class GlobalRoomUI {
  private:
-  std::vector<std::function<void(const std::string&)>>
-      subs_for_entered_username_event;
-  void InvokeEnteredUsernameEvent(const std::string& username);
-
-  std::vector<std::function<void(const std::string&)>>
-      subs_for_entered_message_event;
-  void InvokeEnteredMessageEvent(const std::string& message);
-
   ftxui::ScreenInteractive chat_screen_ =
       ftxui::ScreenInteractive::Fullscreen();
   ftxui::ScreenInteractive login_screen_ =
@@ -36,10 +29,8 @@ class GlobalRoomUI {
   ftxui::Component CreateLoginRenderer();
 
  public:
-  void SubscribeForEnteredUsernameEvent(
-      const std::function<void(const std::string&)>& sub);
-  void SubscribeForEnteredMessageEvent(
-      const std::function<void(const std::string&)>& sub);
+  events::Event<const std::string&> enteredUserNameEvent;
+  events::Event<const std::string&> enteredMessageEvent;
 
   void StartLoginScreen();
   void StartChatScreen();

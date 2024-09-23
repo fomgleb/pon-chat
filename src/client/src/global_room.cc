@@ -29,9 +29,9 @@ void GlobalRoom::OnEnteredMessage(const std::string& message_text) {
 
 GlobalRoom::GlobalRoom(msock::tcp::TcpClient<true>& opened_tcp_client)
     : tcp_client_(opened_tcp_client) {
-  ui_.SubscribeForEnteredUsernameEvent(
+  ui_.enteredUserNameEvent.Subscribe(
       std::bind(&GlobalRoom::OnEnteredUsername, this, std::placeholders::_1));
-  ui_.SubscribeForEnteredMessageEvent(
+  ui_.enteredMessageEvent.Subscribe(
       std::bind(&GlobalRoom::OnEnteredMessage, this, std::placeholders::_1));
 }
 

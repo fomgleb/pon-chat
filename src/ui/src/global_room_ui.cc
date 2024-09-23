@@ -4,22 +4,10 @@ namespace pon_chat::ui {
 
 namespace grp = pon_chat::protocols::global_room_protocol;
 
-void GlobalRoomUI::InvokeEnteredUsernameEvent(const std::string& username) {
-  for (auto const& sub : subs_for_entered_username_event) {
-    sub(username);
-  }
-}
-
-void GlobalRoomUI::InvokeEnteredMessageEvent(const std::string& message) {
-  for (auto const& sub : subs_for_entered_message_event) {
-    sub(message);
-  }
-}
-
 ftxui::Component GlobalRoomUI::CreateMessangerRenderer() {
   auto message_input_field_option = ftxui::InputOption();
   message_input_field_option.on_enter = [&] {
-    InvokeEnteredMessageEvent(message_input_field_text_);
+    enteredMessageEvent.Invoke(message_input_field_text_);
   };
   message_input_field_ = ftxui::Component(
       ftxui::Input(&message_input_field_text_, "Enter your message...",
@@ -42,7 +30,7 @@ ftxui::Component GlobalRoomUI::CreateMessangerRenderer() {
 ftxui::Component GlobalRoomUI::CreateLoginRenderer() {
   auto login_input_field_option = ftxui::InputOption();
   login_input_field_option.on_enter = [&] {
-    InvokeEnteredUsernameEvent(user_name_input_field_text_);
+    enteredUserNameEvent.Invoke(user_name_input_field_text_);
   };
   login_input_field_ =
       ftxui::Input(&user_name_input_field_text_, login_input_field_option);
@@ -56,16 +44,6 @@ ftxui::Component GlobalRoomUI::CreateLoginRenderer() {
            ftxui::border | ftxui::center;
   });
   return login_renderer;
-}
-
-void GlobalRoomUI::SubscribeForEnteredUsernameEvent(
-    const std::function<void(const std::string&)>& sub) {
-  subs_for_entered_username_event.push_back(sub);
-}
-
-void GlobalRoomUI::SubscribeForEnteredMessageEvent(
-    const std::function<void(const std::string&)>& sub) {
-  subs_for_entered_message_event.push_back(sub);
 }
 
 void GlobalRoomUI::StartLoginScreen() {

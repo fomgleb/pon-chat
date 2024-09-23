@@ -11,6 +11,5 @@ target_include_directories(
   PUBLIC ${PUBLIC_HEADER_DIR}
   PRIVATE ${PRIVATE_HEADER_DIR})
 
-target_link_libraries(
-  ${LIB_NAME}
-  PUBLIC protocols_lib ftxui::screen ftxui::dom ftxui::component)
+target_link_libraries(${LIB_NAME} PUBLIC protocols_lib ftxui::screen ftxui::dom
+                                         ftxui::component events_lib)

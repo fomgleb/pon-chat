@@ -1,5 +1,7 @@
 #include "pon-chat/protocols/global_room_protocol.h"
 
+#include "MinimalSocket/Error.h"
+
 namespace pon_chat::protocols::global_room_protocol {
 
 namespace msock = MinimalSocket;

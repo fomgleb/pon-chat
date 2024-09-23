@@ -1,9 +1,8 @@
-#include "global_room_ui.h"
+#include "pon-chat/ui/global_room_ui.h"
 
-namespace pon_chat::client {
+namespace pon_chat::ui {
 
 namespace grp = pon_chat::protocols::global_room_protocol;
-namespace msock = MinimalSocket;
 
 void GlobalRoomUI::InvokeEnteredUsernameEvent(const std::string& username) {
   for (auto const& sub : subs_for_entered_username_event) {
@@ -97,4 +96,4 @@ void GlobalRoomUI::ClearMessageInputField() {
   message_input_field_text_ = "";
 }
 
-}  // namespace pon_chat::client
+}  // namespace pon_chat::ui

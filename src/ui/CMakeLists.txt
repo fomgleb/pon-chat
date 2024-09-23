@@ -1,4 +1,4 @@
-set(LIB_NAME "protocols_lib")
+set(LIB_NAME "ui_lib")
 set(SOURCE_DIR "src")
 set(PRIVATE_HEADER_DIR "src")
 set(PUBLIC_HEADER_DIR "include")
@@ -9,7 +9,8 @@ add_library(${LIB_NAME} STATIC ${SOURCES})
 target_include_directories(
   ${LIB_NAME}
   PUBLIC ${PUBLIC_HEADER_DIR}
-  PRIVATE ${PRIVATE_HEADER_DIR} ${min_sock_SOURCE_DIR}/src/header
-          ${ftxui_SOURCE_DIR}/include)
+  PRIVATE ${PRIVATE_HEADER_DIR})
 
-target_link_libraries(${LIB_NAME} PUBLIC signals_lib MinimalSocket)
+target_link_libraries(
+  ${LIB_NAME}
+  PUBLIC protocols_lib ftxui::screen ftxui::dom ftxui::component)

@@ -1,7 +1,6 @@
 #ifndef PONCHAT_PROTOCOLS_GLOBALROOMPROTOCOL_H_
 #define PONCHAT_PROTOCOLS_GLOBALROOMPROTOCOL_H_
 
-#include "MinimalSocket/Error.h"
 #include "MinimalSocket/core/Receiver.h"
 #include "MinimalSocket/core/Sender.h"
 

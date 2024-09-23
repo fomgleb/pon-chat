@@ -1,14 +1,13 @@
-#ifndef PONCHAT_CLIENT_GLOBALROOMUI_H
-#define PONCHAT_CLIENT_GLOBALROOMUI_H
+#ifndef PONCHAT_UI_GLOBALROOMUI_H_
+#define PONCHAT_UI_GLOBALROOMUI_H_
 
-#include "MinimalSocket/tcp/TcpClient.h"
 #include "ftxui/component/component.hpp"
 #include "ftxui/component/screen_interactive.hpp"
 #include "pon-chat/protocols/global_room_protocol.h"
 
 #include <future>
 
-namespace pon_chat::client {
+namespace pon_chat::ui {
 
 class GlobalRoomUI {
  private:
@@ -51,6 +50,6 @@ class GlobalRoomUI {
   void ClearMessageInputField();
 };
 
-}  // namespace pon_chat::client
+}  // namespace pon_chat::ui
 
-#endif  // PONCHAT_CLIENT_GLOBALROOMUI_H
+#endif  // PONCHAT_UI_GLOBALROOMUI_H_

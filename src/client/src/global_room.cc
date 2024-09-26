@@ -27,11 +27,12 @@ void GlobalRoom::OnEnteredMessage(const std::string& message_text) {
   ui_.ClearMessageInputField();
 }
 
-GlobalRoom::GlobalRoom(msock::tcp::TcpClient<true>& opened_tcp_client)
-    : tcp_client_(opened_tcp_client) {
-  ui_.enteredUserNameEvent.Subscribe(
+GlobalRoom::GlobalRoom(msock::tcp::TcpClient<true>& opened_tcp_client,
+                       ui::GlobalRoomUI& ui)
+    : tcp_client_(opened_tcp_client), ui_(ui) {
+  ui_.SubscribeToEnteredUserNameEvent(
       std::bind(&GlobalRoom::OnEnteredUsername, this, std::placeholders::_1));
-  ui_.enteredMessageEvent.Subscribe(
+  ui_.SubscribeToEnteredMessageEvent(
       std::bind(&GlobalRoom::OnEnteredMessage, this, std::placeholders::_1));
 }
 

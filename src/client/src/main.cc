@@ -14,7 +14,9 @@ int main() {
 
   tcp_client.open();
 
-  client::GlobalRoom global_room(tcp_client);
+  pon_chat::ui::GlobalRoomConsoleUI ui;
+
+  client::GlobalRoom global_room(tcp_client, ui);
 
   global_room.StartLoop();
 

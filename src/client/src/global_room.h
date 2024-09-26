@@ -1,15 +1,15 @@
 #ifndef PONCHAT_CLIENT_GLOBALROOM_H_
 #define PONCHAT_CLIENT_GLOBALROOM_H_
 
-#include "pon-chat/ui/global_room_ui.h"
 #include "MinimalSocket/tcp/TcpClient.h"
+#include "pon-chat/ui/global_room_console_ui.h"
 
 namespace pon_chat::client {
 
 class GlobalRoom {
  private:
   MinimalSocket::tcp::TcpClient<true>& tcp_client_;
-  ui::GlobalRoomUI ui_;
+  ui::GlobalRoomUI& ui_;
   std::string error_message_;
   std::string username_;
 
@@ -17,7 +17,8 @@ class GlobalRoom {
   void OnEnteredMessage(const std::string& message_text);
 
  public:
-  GlobalRoom(MinimalSocket::tcp::TcpClient<true>& opened_tcp_client);
+  GlobalRoom(MinimalSocket::tcp::TcpClient<true>& opened_tcp_client,
+             ui::GlobalRoomUI& ui);
   void StartLoop();
 };
 

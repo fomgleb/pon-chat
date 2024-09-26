@@ -1,10 +1,10 @@
-#include "pon-chat/ui/global_room_ui.h"
+#include "pon-chat/ui/global_room_console_ui.h"
 
 namespace pon_chat::ui {
 
 namespace grp = pon_chat::protocols::global_room_protocol;
 
-ftxui::Component GlobalRoomUI::CreateMessangerRenderer() {
+ftxui::Component GlobalRoomConsoleUI::CreateMessangerRenderer() {
   auto message_input_field_option = ftxui::InputOption();
   message_input_field_option.on_enter = [&] {
     enteredMessageEvent.Invoke(message_input_field_text_);
@@ -27,7 +27,7 @@ ftxui::Component GlobalRoomUI::CreateMessangerRenderer() {
   return messanger_renderer;
 }
 
-ftxui::Component GlobalRoomUI::CreateLoginRenderer() {
+ftxui::Component GlobalRoomConsoleUI::CreateLoginRenderer() {
   auto login_input_field_option = ftxui::InputOption();
   login_input_field_option.on_enter = [&] {
     enteredUserNameEvent.Invoke(user_name_input_field_text_);
@@ -46,31 +46,41 @@ ftxui::Component GlobalRoomUI::CreateLoginRenderer() {
   return login_renderer;
 }
 
-void GlobalRoomUI::StartLoginScreen() {
+void GlobalRoomConsoleUI::SubscribeToEnteredUserNameEvent(
+    std::function<void(const std::string& username)> func) {
+  enteredUserNameEvent.Subscribe(func);
+}
+
+void GlobalRoomConsoleUI::SubscribeToEnteredMessageEvent(
+    std::function<void(const std::string& message)> func) {
+  enteredMessageEvent.Subscribe(func);
+}
+
+void GlobalRoomConsoleUI::StartLoginScreen() {
   ftxui::Component login_renderer = CreateLoginRenderer();
   login_screen_.Loop(login_renderer);
 }
 
-void GlobalRoomUI::StartChatScreen() {
+void GlobalRoomConsoleUI::StartChatScreen() {
   ftxui::Component messenger_renderer = CreateMessangerRenderer();
   chat_screen_.Loop(messenger_renderer);
 }
 
-void GlobalRoomUI::StopLoginScreen() {
+void GlobalRoomConsoleUI::StopLoginScreen() {
   login_screen_.Exit();
 }
 
-void GlobalRoomUI::StopChatScreen() {
+void GlobalRoomConsoleUI::StopChatScreen() {
   chat_screen_.Exit();
 }
 
-void GlobalRoomUI::AddAndDrawNewMessage(grp::Message& message) {
+void GlobalRoomConsoleUI::AddAndDrawNewMessage(grp::Message& message) {
   message_elements.push_back(ftxui::window(ftxui::text(message.sender_name),
                                            ftxui::paragraph(message.text)));
   chat_screen_.PostEvent(ftxui::Event::Custom);
 }
 
-void GlobalRoomUI::ClearMessageInputField() {
+void GlobalRoomConsoleUI::ClearMessageInputField() {
   message_input_field_text_ = "";
 }
 

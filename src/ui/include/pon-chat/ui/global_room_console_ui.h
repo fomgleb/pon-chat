@@ -1,3 +1,6 @@
+#ifndef PONCHAT_UI_GLOBALROOMCONSOLEUI_H_
+#define PONCHAT_UI_GLOBALROOMCONSOLEUI_H_
+
 #include "ftxui/component/component.hpp"
 #include "ftxui/component/screen_interactive.hpp"
 #include "global_room_ui.h"
@@ -43,3 +46,5 @@ class GlobalRoomConsoleUI : public GlobalRoomUI {
 };
 
 }  // namespace pon_chat::ui
+
+#endif  // PONCHAT_UI_GLOBALROOMCONSOLEUI_H_

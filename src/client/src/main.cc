@@ -1,5 +1,6 @@
 #include "global_room.h"
 #include "pon-chat/console_input/console_input.h"
+#include "pon-chat/ui/global_room_graphical_ui.h"
 
 namespace msock = MinimalSocket;
 namespace ci = pon_chat::console_input;
@@ -14,7 +15,7 @@ int main() {
 
   tcp_client.open();
 
-  pon_chat::ui::GlobalRoomConsoleUI ui;
+  pon_chat::ui::GlobalRoomGraphicalUI ui;
 
   client::GlobalRoom global_room(tcp_client, ui);
 

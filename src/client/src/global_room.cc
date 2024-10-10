@@ -16,8 +16,7 @@ void GlobalRoom::OnEnteredMessage(const std::string& message_text) {
     return;
   }
 
-  grp::Message message{username_.substr(0, username_.size() - 1),
-                       message_text.substr(0, message_text.size() - 1)};
+  grp::Message message{username_, message_text};
   if (!grp::TrySendMessage(tcp_client_, message)) {
     error_message_ = "Lost connection with the server";
     ui_.StopChatScreen();

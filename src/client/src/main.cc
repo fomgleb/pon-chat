@@ -6,7 +6,13 @@ namespace msock = MinimalSocket;
 namespace ci = pon_chat::console_input;
 namespace client = pon_chat::client;
 
-int main() {
+#ifdef _WIN32
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+                     LPSTR lpCmdLine, int nCmdShow)
+#else
+int main()
+#endif
+{
   std::string server_ip = ci::ReadString("Enter server IP: ");
   uint16_t server_port =
       ci::ReadNumber<uint16_t>("Enter server port: ", "Incorrect format!");

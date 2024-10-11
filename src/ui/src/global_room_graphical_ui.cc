@@ -154,9 +154,9 @@ GlobalRoomGraphicalUI::CreateSDLWindow()
     SDL_WindowFlags window_flags =
         (SDL_WindowFlags)(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE |
                           SDL_WINDOW_ALLOW_HIGHDPI);
-    SDL_Window* sdl_window = SDL_CreateWindow(
-        "Dear ImGui SDL2+OpenGL3 example", SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
+    SDL_Window* sdl_window =
+        SDL_CreateWindow("pon-chat", SDL_WINDOWPOS_CENTERED,
+                         SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
     if (sdl_window == nullptr) {
         printf("Error: SDL_CreateWindow(): %s\n", SDL_GetError());
         exit(EXIT_FAILURE);

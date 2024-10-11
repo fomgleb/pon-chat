@@ -53,5 +53,9 @@ file(
 add_library(imgui_lib STATIC ${IMGUI_SOURCES})
 target_include_directories(
   imgui_lib PUBLIC ${imgui_SOURCE_DIR} ${imgui_SOURCE_DIR}/backends
-  ${sdl2_SOURCE_DIR}/include ${imgui_SOURCE_DIR}/misc/cpp)
-target_link_libraries(imgui_lib PUBLIC SDL2::SDL2 opengl32)
+                   ${sdl2_SOURCE_DIR}/include ${imgui_SOURCE_DIR}/misc/cpp)
+if(WIN32)
+  target_link_libraries(imgui_lib PUBLIC SDL2::SDL2 opengl32)
+else()
+  target_link_libraries(imgui_lib PUBLIC SDL2::SDL2 OpenGL)
+endif()

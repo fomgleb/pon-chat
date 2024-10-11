@@ -67,6 +67,8 @@ static void SetupImgui()
     ImGuiIO& imgui_io = ImGui::GetIO();
     imgui_io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     imgui_io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+    imgui_io.IniFilename = nullptr;
+    imgui_io.LogFilename = nullptr;
 
     ImGui::StyleColorsDark();
     //ImGui::StyleColorsLight();

@@ -23,14 +23,18 @@ bool TrySendMessage(MinimalSocket::Sender& sender,
                           sizeof(message_text_size));
   protocol_message.append(message_text);
 
+#ifndef _WIN32
   sighandler_t old_sighanlder = sigs::GetAndSetSighandler(SIGPIPE, SIG_IGN);
   try {
+#endif
     sender.send(protocol_message);
+#ifndef _WIN32
   } catch (const msock::SocketError e) {
     std::cerr << e.what() << '\n';
     no_errors = false;
   }
   signal(SIGPIPE, old_sighanlder);
+#endif
 
   return no_errors;
 }

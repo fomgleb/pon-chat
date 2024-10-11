@@ -8,9 +8,17 @@
 
 namespace pon_chat::signals {
 
-sighandler_t GetAndSetSighandler(const int signal,
+#ifdef _WIN32
+using sighandler_t = void(__cdecl*)(int);
+#else
+#ifndef sighandler_t
+using sighandler_t = void (*)(int);
+#endif
+#endif
+
+sighandler_t GetAndSetSighandler(const int signal_number,
                                  const sighandler_t new_sighandler);
 
-}
+}  // namespace pon_chat::signals
 
 #endif  // PONCHAT_SIGNALS_SIGNALS_H_

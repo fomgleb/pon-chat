@@ -34,7 +34,11 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(sdl2)
 
 # Adding opengl library
-find_package(OpenGL REQUIRED)
+if(APPLE)
+  find_library(OpenGL_LIBRARY OpenGL)
+else()
+  find_package(OpenGL REQUIRED)
+endif()
 
 # Adding imgui library
 FetchContent_Declare(
@@ -56,6 +60,8 @@ target_include_directories(
                    ${sdl2_SOURCE_DIR}/include ${imgui_SOURCE_DIR}/misc/cpp)
 if(WIN32)
   target_link_libraries(imgui_lib PUBLIC SDL2::SDL2 opengl32)
+elseif(APPLE)
+  target_link_libraries(imgui_lib PUBLIC SDL2::SDL2 ${OpenGL_LIBRARY})
 else()
-  target_link_libraries(imgui_lib PUBLIC SDL2::SDL2 OpenGL)
+  target_link_libraries(imgui_lib PUBLIC SDL2::SDL2 OpenGL::GL)
 endif()

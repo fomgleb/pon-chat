@@ -24,7 +24,8 @@ bool TrySendMessage(MinimalSocket::Sender& sender,
   protocol_message.append(message_text);
 
 #ifndef _WIN32
-  sighandler_t old_sighanlder = sigs::GetAndSetSighandler(SIGPIPE, SIG_IGN);
+  sigs::sighandler_t old_sighanlder =
+      sigs::GetAndSetSighandler(SIGPIPE, SIG_IGN);
   try {
 #endif
     sender.send(protocol_message);

@@ -9,7 +9,6 @@ add_library(${LIB_NAME} STATIC ${SOURCES})
 target_include_directories(
   ${LIB_NAME}
   PUBLIC ${PUBLIC_HEADER_DIR}
-  PRIVATE ${PRIVATE_HEADER_DIR} ${min_sock_SOURCE_DIR}/src/header
-          ${ftxui_SOURCE_DIR}/include)
+  PRIVATE ${PRIVATE_HEADER_DIR})
 
 target_link_libraries(${LIB_NAME} PUBLIC signals_lib MinimalSocket)

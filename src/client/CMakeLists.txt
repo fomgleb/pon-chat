@@ -9,8 +9,7 @@ add_executable(${APP_NAME} ${SOURCES})
 target_include_directories(
   ${APP_NAME}
   PUBLIC ${PUBLIC_HEADER_DIR}
-  PRIVATE ${PRIVATE_HEADER_DIR} ${min_sock_SOURCE_DIR}/src/header
-          ${ftxui_SOURCE_DIR}/include)
+  PRIVATE ${PRIVATE_HEADER_DIR})
 
 target_link_libraries(
   ${APP_NAME} PRIVATE ui_lib MinimalSocket console_input_lib)

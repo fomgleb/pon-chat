@@ -30,7 +30,7 @@ bool TrySendMessage(MinimalSocket::Sender& sender,
 #endif
     sender.send(protocol_message);
 #ifndef _WIN32
-  } catch (const msock::SocketError e) {
+  } catch (const msock::SocketError& e) {
     std::cerr << e.what() << '\n';
     no_errors = false;
   }
@@ -44,7 +44,7 @@ bool TrySendMessage(msock::Sender& sender, const Message& message) {
   return TrySendMessage(sender, message.sender_name, message.text);
 }
 
-uint32_t bytes_to_uint32(const std::string& bytes) {
+static uint32_t bytesToUint32(const std::string& bytes) {
   uint32_t result = 0;
   std::copy_n(reinterpret_cast<const uint8_t*>(bytes.data()), sizeof(result),
               reinterpret_cast<uint8_t*>(&result));
@@ -56,13 +56,13 @@ std::optional<Message> ReceiveMessage(msock::Receiver<true>& receiver) {
 
   try {
     uint32_t message_sender_name_size =
-        bytes_to_uint32(receiver.receive(sizeof(uint32_t)));
+        bytesToUint32(receiver.receive(sizeof(uint32_t)));
     if (message_sender_name_size == 0) {
       return std::nullopt;
     }
     received_message.sender_name = receiver.receive(message_sender_name_size);
     uint32_t message_text_size =
-        bytes_to_uint32(receiver.receive(sizeof(uint32_t)));
+        bytesToUint32(receiver.receive(sizeof(uint32_t)));
     if (message_text_size == 0) {
       return std::nullopt;
     }

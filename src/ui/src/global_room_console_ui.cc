@@ -9,9 +9,9 @@ ftxui::Component GlobalRoomConsoleUI::CreateMessangerRenderer() {
   message_input_field_option.on_enter = [&] {
     enteredMessageEvent.Invoke(message_input_field_text_);
   };
-  message_input_field_ = ftxui::Component(
+  message_input_field_ =
       ftxui::Input(&message_input_field_text_, "Enter your message...",
-                   message_input_field_option));
+                   message_input_field_option);
 
   auto messanger_renderer = ftxui::Renderer(message_input_field_, [&] {
     return ftxui::vbox({

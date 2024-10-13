@@ -151,9 +151,8 @@ GlobalRoomGraphicalUI::CreateSDLWindow()
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-    SDL_WindowFlags window_flags =
-        (SDL_WindowFlags)(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE |
-                          SDL_WINDOW_ALLOW_HIGHDPI);
+    SDL_WindowFlags window_flags = static_cast<SDL_WindowFlags>(
+        SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
     SDL_Window* sdl_window =
         SDL_CreateWindow("pon-chat", SDL_WINDOWPOS_CENTERED,
                          SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
@@ -257,8 +256,8 @@ void GlobalRoomGraphicalUI::MainLoop()
 
         // Rendering
         ImGui::Render();
-        glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x,
-                   (int)ImGui::GetIO().DisplaySize.y);
+        glViewport(0, 0, static_cast<int>(ImGui::GetIO().DisplaySize.x),
+                   static_cast<int>(ImGui::GetIO().DisplaySize.y));
         glClearColor(clear_color.x * clear_color.w,
                      clear_color.y * clear_color.w,
                      clear_color.z * clear_color.w, clear_color.w);

@@ -23,7 +23,8 @@ sighandler_t GetAndSetSighandler(const int signal_number,
     if (sigaction(signal_number, &new_action, &old_action) == -1) {
         std::cerr << "Failed to set the signal handler "
                   << reinterpret_cast<void*>(new_sighandler) << " for signal "
-                  << signal << ". Error: " << strerror(errno) << std::endl;
+                  << signal_number << ". Error: " << strerror(errno)
+                  << std::endl;
         exit(EXIT_FAILURE);
     }
     return old_action.sa_handler;

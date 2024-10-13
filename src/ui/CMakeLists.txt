@@ -13,11 +13,11 @@ target_include_directories(
 
 target_link_libraries(
   ${LIB_NAME}
+  PRIVATE project_warnings
   PUBLIC protocols_lib
          ftxui::screen
          ftxui::dom
          ftxui::component
          events_lib
          imgui_lib
-         flags_lib
-  PRIVATE)
+         flags_lib)

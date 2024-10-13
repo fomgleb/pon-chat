@@ -11,4 +11,5 @@ target_include_directories(
   PUBLIC ${PUBLIC_HEADER_DIR}
   PRIVATE ${PRIVATE_HEADER_DIR})
 
-target_link_libraries(${APP_NAME} PRIVATE MinimalSocket protocols_lib console_input_lib)
+target_link_libraries(${APP_NAME} PRIVATE project_warnigs MinimalSocket
+                                          protocols_lib console_input_lib)

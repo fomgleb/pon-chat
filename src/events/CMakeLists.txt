@@ -10,3 +10,5 @@ target_include_directories(
   ${LIB_NAME}
   PUBLIC ${PUBLIC_HEADER_DIR}
   PRIVATE ${PRIVATE_HEADER_DIR})
+
+target_link_libraries(${LIB_NAME} PRIVATE project_warnings)

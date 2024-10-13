@@ -11,5 +11,5 @@ target_include_directories(
   PUBLIC ${PUBLIC_HEADER_DIR}
   PRIVATE ${PRIVATE_HEADER_DIR})
 
-target_link_libraries(
-  ${APP_NAME} PRIVATE ui_lib MinimalSocket console_input_lib)
+target_link_libraries(${APP_NAME} PRIVATE project_warnings ui_lib MinimalSocket
+                                          console_input_lib)

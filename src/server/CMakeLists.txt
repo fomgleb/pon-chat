@@ -1,7 +1,7 @@
 set(APP_NAME "server_app")
 set(SOURCE_DIR "src")
 set(PRIVATE_HEADER_DIR "src")
-set(PUBLIC_HEADER_DIR "include")
+set(PUBLIC_HEADER_DIR "")
 file(GLOB_RECURSE SOURCES "${SOURCE_DIR}/*.cc")
 
 add_executable(${APP_NAME} ${SOURCES})
@@ -11,5 +11,5 @@ target_include_directories(
   PUBLIC ${PUBLIC_HEADER_DIR}
   PRIVATE ${PRIVATE_HEADER_DIR})
 
-target_link_libraries(${APP_NAME} PRIVATE project_warnigs MinimalSocket
+target_link_libraries(${APP_NAME} PRIVATE project_warnings MinimalSocket
                                           protocols_lib console_input_lib)

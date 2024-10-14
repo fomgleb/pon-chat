@@ -18,8 +18,7 @@ using std::unique_ptr;
 
 static void SetupSDL()
 {
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) !=
-        0) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0) {
         printf("Error: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     }
@@ -43,18 +42,15 @@ static std::string ChooseGLSLVersion()
 #elif defined(__APPLE__)
     // GL 3.2 Core + GLSL 150
     std::string glsl_version = "#version 150";
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS,
-                        SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
-                        SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 #else
     // GL 3.0 + GLSL 130
     std::string glsl_version = "#version 130";
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
-                        SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 #endif
@@ -91,8 +87,7 @@ GlobalRoomGraphicalUI::GlobalRoomGraphicalUI()
     ImGui_ImplOpenGL3_Init(glsl_version.c_str());
 
     ImGuiIO& io = ImGui::GetIO();
-    io.Fonts->AddFontFromFileTTF("resources/Roboto-Regular.ttf", 24, nullptr,
-                                 io.Fonts->GetGlyphRangesCyrillic());
+    io.Fonts->AddFontFromFileTTF("resources/Roboto-Regular.ttf", 24, nullptr, io.Fonts->GetGlyphRangesCyrillic());
 }
 
 GlobalRoomGraphicalUI::~GlobalRoomGraphicalUI()
@@ -102,14 +97,12 @@ GlobalRoomGraphicalUI::~GlobalRoomGraphicalUI()
     SDL_Quit();
 }
 
-void GlobalRoomGraphicalUI::SubscribeToEnteredUserNameEvent(
-    std::function<void(const std::string& username)> func)
+void GlobalRoomGraphicalUI::SubscribeToEnteredUserNameEvent(std::function<void(const std::string& username)> func)
 {
     entered_username_event_.Subscribe(func);
 }
 
-void GlobalRoomGraphicalUI::SubscribeToEnteredMessageEvent(
-    std::function<void(const std::string& message)> func)
+void GlobalRoomGraphicalUI::SubscribeToEnteredMessageEvent(std::function<void(const std::string& message)> func)
 {
     entered_message_event_.Subscribe(func);
 }
@@ -145,17 +138,15 @@ void GlobalRoomGraphicalUI::ClearMessageInputField()
     message_buff_[0] = '\0';
 }
 
-unique_ptr<SDL_Window, GlobalRoomGraphicalUI::UiDeleter>
-GlobalRoomGraphicalUI::CreateSDLWindow()
+unique_ptr<SDL_Window, GlobalRoomGraphicalUI::UiDeleter> GlobalRoomGraphicalUI::CreateSDLWindow()
 {
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-    SDL_WindowFlags window_flags = static_cast<SDL_WindowFlags>(
-        SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
+    SDL_WindowFlags window_flags =
+        static_cast<SDL_WindowFlags>(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
     SDL_Window* sdl_window =
-        SDL_CreateWindow("pon-chat", SDL_WINDOWPOS_CENTERED,
-                         SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
+        SDL_CreateWindow("pon-chat", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
     if (sdl_window == nullptr) {
         printf("Error: SDL_CreateWindow(): %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
@@ -163,21 +154,18 @@ GlobalRoomGraphicalUI::CreateSDLWindow()
     return unique_ptr<SDL_Window, GlobalRoomGraphicalUI::UiDeleter>(sdl_window);
 }
 
-unique_ptr<void, GlobalRoomGraphicalUI::UiDeleter>
-GlobalRoomGraphicalUI::CreateOpenGLContext()
+unique_ptr<void, GlobalRoomGraphicalUI::UiDeleter> GlobalRoomGraphicalUI::CreateOpenGLContext()
 {
     SDL_GLContext opengl_context = SDL_GL_CreateContext(sdl_window_.get());
     SDL_GL_MakeCurrent(sdl_window_.get(), opengl_context);
     return unique_ptr<void, GlobalRoomGraphicalUI::UiDeleter>(opengl_context);
 }
 
-unique_ptr<ImGuiContext, GlobalRoomGraphicalUI::UiDeleter>
-GlobalRoomGraphicalUI::CreateImguiContext()
+unique_ptr<ImGuiContext, GlobalRoomGraphicalUI::UiDeleter> GlobalRoomGraphicalUI::CreateImguiContext()
 {
     IMGUI_CHECKVERSION();
     ImGuiContext* imgui_context = ImGui::CreateContext();
-    return unique_ptr<ImGuiContext, GlobalRoomGraphicalUI::UiDeleter>(
-        imgui_context);
+    return unique_ptr<ImGuiContext, GlobalRoomGraphicalUI::UiDeleter>(imgui_context);
 }
 
 void GlobalRoomGraphicalUI::MainLoop()
@@ -191,8 +179,7 @@ void GlobalRoomGraphicalUI::MainLoop()
             ImGui_ImplSDL2_ProcessEvent(&event);
             if (event.type == SDL_QUIT)
                 exited = true;
-            if (event.type == SDL_WINDOWEVENT &&
-                event.window.event == SDL_WINDOWEVENT_CLOSE &&
+            if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE &&
                 event.window.windowID == SDL_GetWindowID(sdl_window_.get()))
                 exited = true;
         }
@@ -210,14 +197,11 @@ void GlobalRoomGraphicalUI::MainLoop()
         SDL_GetWindowSize(sdl_window_.get(), &window_width, &window_height);
 
         static constexpr ImGuiWindowFlags window_flags =
-            ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
-            ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse |
-            ImGuiWindowFlags_NoBringToFrontOnFocus |
-            ImGuiWindowFlags_NoBackground;
+            ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoBackground;
 
         ImGui::SetNextWindowPos(ImVec2(0, 0));
-        ImGui::SetNextWindowSize(ImVec2(static_cast<float>(window_width),
-                                        static_cast<float>(window_height)));
+        ImGui::SetNextWindowSize(ImVec2(static_cast<float>(window_width), static_cast<float>(window_height)));
 
         ImGui::Begin("Pon Chat", nullptr, window_flags);
 
@@ -228,16 +212,12 @@ void GlobalRoomGraphicalUI::MainLoop()
             }
         } else if (showing_windows_[Windows::MESSENGER]) {
             ImVec2 available_size = ImGui::GetContentRegionAvail();
-            float input_height = ImGui::GetTextLineHeightWithSpacing() +
-                                 ImGui::GetStyle().ItemSpacing.y;
+            float input_height = ImGui::GetTextLineHeightWithSpacing() + ImGui::GetStyle().ItemSpacing.y;
 
-            ImGui::BeginChild("Scrolling",
-                              ImVec2(0, available_size.y - input_height - 10),
-                              true);
+            ImGui::BeginChild("Scrolling", ImVec2(0, available_size.y - input_height - 10), true);
 
             for (const auto& msg : messages_to_draw_) {
-                ImGui::Text("%s: %s", msg.sender_name.c_str(),
-                            msg.text.c_str());
+                ImGui::Text("%s: %s", msg.sender_name.c_str(), msg.text.c_str());
             }
 
             ImGui::SetScrollHereY(1.0f);
@@ -256,9 +236,8 @@ void GlobalRoomGraphicalUI::MainLoop()
         ImGui::Render();
         glViewport(0, 0, static_cast<int>(ImGui::GetIO().DisplaySize.x),
                    static_cast<int>(ImGui::GetIO().DisplaySize.y));
-        glClearColor(clear_color.x * clear_color.w,
-                     clear_color.y * clear_color.w,
-                     clear_color.z * clear_color.w, clear_color.w);
+        glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w,
+                     clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         SDL_GL_SwapWindow(sdl_window_.get());

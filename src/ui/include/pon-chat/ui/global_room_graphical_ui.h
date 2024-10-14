@@ -14,18 +14,15 @@ class GlobalRoomGraphicalUI : public GlobalRoomUI {
   public:
     GlobalRoomGraphicalUI();
     ~GlobalRoomGraphicalUI();
-    void SubscribeToEnteredUserNameEvent(
-        std::function<void(const std::string& username)> func) override;
-    void SubscribeToEnteredMessageEvent(
-        std::function<void(const std::string& message)> func) override;
+    void SubscribeToEnteredUserNameEvent(std::function<void(const std::string& username)> func) override;
+    void SubscribeToEnteredMessageEvent(std::function<void(const std::string& message)> func) override;
 
     void StartLoginScreen() override;
     void StartChatScreen() override;
     void StopLoginScreen() override;
     void StopChatScreen() override;
 
-    void AddAndDrawNewMessage(
-        protocols::global_room_protocol::Message& message) override;
+    void AddAndDrawNewMessage(protocols::global_room_protocol::Message& message) override;
     void ClearMessageInputField() override;
 
   private:

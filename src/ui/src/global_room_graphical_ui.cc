@@ -105,13 +105,13 @@ GlobalRoomGraphicalUI::~GlobalRoomGraphicalUI()
 void GlobalRoomGraphicalUI::SubscribeToEnteredUserNameEvent(
     std::function<void(const std::string& username)> func)
 {
-    enteredUserNameEvent.Subscribe(func);
+    entered_username_event_.Subscribe(func);
 }
 
 void GlobalRoomGraphicalUI::SubscribeToEnteredMessageEvent(
     std::function<void(const std::string& message)> func)
 {
-    enteredMessageEvent.Subscribe(func);
+    entered_message_event_.Subscribe(func);
 }
 
 void GlobalRoomGraphicalUI::StartLoginScreen()
@@ -182,8 +182,6 @@ GlobalRoomGraphicalUI::CreateImguiContext()
 
 void GlobalRoomGraphicalUI::MainLoop()
 {
-    bool show_demo_window = true;
-    bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.22f, 0.22f, 0.22f, 1.00f);
 
     bool exited = false;
@@ -226,7 +224,7 @@ void GlobalRoomGraphicalUI::MainLoop()
         if (showing_windows_[Windows::LOGIN]) {
             ImGui::InputText(" ", username_buff_, USERNAME_BUFF_SIZE_);
             if (ImGui::Button("Login")) {
-                enteredUserNameEvent.Invoke(std::string(username_buff_));
+                entered_username_event_.Invoke(std::string(username_buff_));
             }
         } else if (showing_windows_[Windows::MESSENGER]) {
             ImVec2 available_size = ImGui::GetContentRegionAvail();
@@ -248,7 +246,7 @@ void GlobalRoomGraphicalUI::MainLoop()
             ImGui::InputText(" ", message_buff_, MESSAGE_BUFF_SIZE_);
             ImGui::SameLine();
             if (ImGui::Button("Send") && message_buff_[0] != '\0') {
-                enteredMessageEvent.Invoke(std::string(message_buff_));
+                entered_message_event_.Invoke(std::string(message_buff_));
             }
         }
 

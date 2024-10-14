@@ -43,8 +43,8 @@ class GlobalRoomGraphicalUI : public GlobalRoomUI {
 
     flags::Flags<Windows> showing_windows_ = Windows::NONE;
 
-    events::Event<const std::string&> enteredUserNameEvent;
-    events::Event<const std::string&> enteredMessageEvent;
+    events::Event<const std::string&> entered_username_event_;
+    events::Event<const std::string&> entered_message_event_;
 
     static constexpr size_t MESSAGE_BUFF_SIZE_ = 512;
     char message_buff_[MESSAGE_BUFF_SIZE_] = {};

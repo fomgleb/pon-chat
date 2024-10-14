@@ -206,8 +206,8 @@ void GlobalRoomGraphicalUI::MainLoop()
         ImGui::Begin("Pon Chat", nullptr, window_flags);
 
         if (showing_windows_[Windows::LOGIN]) {
-            ImGui::InputText(" ", username_buff_, USERNAME_BUFF_SIZE_);
-            if (ImGui::Button("Login")) {
+            ImGuiInputTextFlags flag = ImGuiInputTextFlags_EnterReturnsTrue;
+            if (ImGui::InputText(" ", username_buff_, USERNAME_BUFF_SIZE_, flag) || ImGui::Button("Login")) {
                 entered_username_event_.Invoke(std::string(username_buff_));
             }
         } else if (showing_windows_[Windows::MESSENGER]) {
@@ -223,7 +223,11 @@ void GlobalRoomGraphicalUI::MainLoop()
             ImGui::SetScrollHereY(1.0f);
             ImGui::EndChild();
 
-            ImGui::InputText(" ", message_buff_, MESSAGE_BUFF_SIZE_);
+            ImGuiInputTextFlags flag = ImGuiInputTextFlags_EnterReturnsTrue;
+            if (ImGui::InputText(" ", message_buff_, MESSAGE_BUFF_SIZE_, flag) && message_buff_[0] != '\0') {
+                ImGui::SetKeyboardFocusHere(-1);
+                entered_message_event_.Invoke(std::string(message_buff_));
+            }
             ImGui::SameLine();
             if (ImGui::Button("Send") && message_buff_[0] != '\0') {
                 entered_message_event_.Invoke(std::string(message_buff_));

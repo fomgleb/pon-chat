@@ -7,19 +7,18 @@
 namespace pon_chat::client {
 
 class GlobalRoom {
- private:
-  MinimalSocket::tcp::TcpClient<true>& tcp_client_;
-  ui::GlobalRoomUI& ui_;
-  std::string error_message_;
-  std::string username_;
+  private:
+    MinimalSocket::tcp::TcpClient<true>& tcp_client_;
+    ui::GlobalRoomUI& ui_;
+    std::string error_message_;
+    std::string username_;
 
-  void OnEnteredUsername(const std::string& username);
-  void OnEnteredMessage(const std::string& message_text);
+    void OnEnteredUsername(const std::string& username);
+    void OnEnteredMessage(const std::string& message_text);
 
- public:
-  GlobalRoom(MinimalSocket::tcp::TcpClient<true>& opened_tcp_client,
-             ui::GlobalRoomUI& ui);
-  void StartLoop();
+  public:
+    GlobalRoom(MinimalSocket::tcp::TcpClient<true>& opened_tcp_client, ui::GlobalRoomUI& ui);
+    void StartLoop();
 };
 
 }  // namespace pon_chat::client

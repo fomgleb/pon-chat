@@ -7,25 +7,23 @@ namespace ci = pon_chat::console_input;
 namespace client = pon_chat::client;
 
 #ifdef _WIN32
-int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-                     LPSTR lpCmdLine, int nCmdShow)
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 #else
 int main()
 #endif
 {
-  std::string server_ip = ci::ReadString("Enter server IP: ");
-  uint16_t server_port =
-      ci::ReadNumber<uint16_t>("Enter server port: ", "Incorrect format!");
-  msock::Address server_address(server_ip, server_port);
-  msock::tcp::TcpClient<true> tcp_client(server_address);
+    std::string server_ip = ci::ReadString("Enter server IP: ");
+    uint16_t server_port = ci::ReadNumber<uint16_t>("Enter server port: ", "Incorrect format!");
+    msock::Address server_address(server_ip, server_port);
+    msock::tcp::TcpClient<true> tcp_client(server_address);
 
-  tcp_client.open();
+    tcp_client.open();
 
-  pon_chat::ui::GlobalRoomGraphicalUI ui;
+    pon_chat::ui::GlobalRoomGraphicalUI ui;
 
-  client::GlobalRoom global_room(tcp_client, ui);
+    client::GlobalRoom global_room(tcp_client, ui);
 
-  global_room.StartLoop();
+    global_room.StartLoop();
 
-  return 0;
+    return 0;
 }
